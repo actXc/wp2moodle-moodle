@@ -53,9 +53,10 @@ function decrypt_string($base64, $key) {
  * querystring helper, returns the value of a key in a string formatted in key=value&key=value&key=value pairs, e.g. saved querystrings
  */
 function get_key_value($string, $key) {
-    $list = explode( '&', $string);
+    $list = explode( '&', str_replace( '&amp;', '&', $string));
     foreach ($list as $pair) {
     	$item = explode( '=', $pair);
+    	// actxc echo "item: ".$key."/".$item[0]."/".$item[1]." <br>";
 		if (strtolower($key) == strtolower($item[0])) {
 			return urldecode($item[1]); // not for use in $_GET etc, which is already decoded, however our encoder uses http_build_query() before encrypting
 		}
